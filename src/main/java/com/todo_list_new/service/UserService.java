@@ -1,5 +1,6 @@
 package com.todo_list_new.service;
 
+import com.todo_list_new.configuration.SecurityUtils;
 import com.todo_list_new.exception.UserAlreadyExistsException;
 import com.todo_list_new.exception.UserNotFoundException;
 import com.todo_list_new.exception.ValidationException;
@@ -7,6 +8,7 @@ import com.todo_list_new.mapper.UserMapper;
 import com.todo_list_new.model.Users;
 import com.todo_list_new.model.dto.UserLoginDTO;
 import com.todo_list_new.model.dto.UserRegistrationDTO;
+import com.todo_list_new.model.dto.UserRequestDTO;
 import com.todo_list_new.model.dto.UserResponseDTO;
 import com.todo_list_new.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 @Service
 public class UserService {
@@ -37,8 +40,8 @@ public class UserService {
 
     @Transactional
     public UserResponseDTO register(UserRegistrationDTO userRegistrationDTO) {
-        if (userRegistrationDTO==null || userRegistrationDTO.getName()==null || userRegistrationDTO==null ||
-                userRegistrationDTO.getEmail()==null || userRegistrationDTO.getPassword()==null) {
+        if (userRegistrationDTO==null || userRegistrationDTO.getName()==null ||
+                userRegistrationDTO.getPassword()==null || userRegistrationDTO.getEmail()==null) {
             throw new ValidationException("Registration data cannot be null");
         }
         if (userRepository.existsByName(userRegistrationDTO.getName())){
@@ -77,5 +80,16 @@ public class UserService {
         userRepository.delete(user);
     }
 
-
+    public UserResponseDTO changePassword(UserRequestDTO userRequestDTO) {
+        String username = SecurityUtils.getCurrentUsername();
+        Users user;
+        try {
+            user = userRepository.findByName(username);
+        } catch (UserNotFoundException e) {
+            throw new UserNotFoundException(e.getMessage());
+        }
+        user.setPassword(passwordEncoder.encode(userRequestDTO.getPassword()));
+        userRepository.save(user);
+        return userMapper.toDTO(user);
+    }
 }

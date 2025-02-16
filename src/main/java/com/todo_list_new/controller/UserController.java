@@ -3,13 +3,14 @@ package com.todo_list_new.controller;
 import com.todo_list_new.model.Users;
 import com.todo_list_new.model.dto.UserLoginDTO;
 import com.todo_list_new.model.dto.UserRegistrationDTO;
+import com.todo_list_new.model.dto.UserRequestDTO;
 import com.todo_list_new.model.dto.UserResponseDTO;
 import com.todo_list_new.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/user")
 public class UserController {
 
     private final UserService userService;
@@ -34,15 +35,14 @@ public class UserController {
         return userService.findById(id);
     }
 
+    @PatchMapping("/change-password")
+    public UserResponseDTO changePassword(@RequestBody UserRequestDTO userRequestDTO) {
+        return userService.changePassword(userRequestDTO);
+    }
+
     @DeleteMapping("/{id}")
     public void deleteById(@PathVariable int id) {
         userService.deleteById(id);
     }
 
-
-
-    @GetMapping("/info")
-    public String info() {
-        return "Welcome to my list";
-    }
 }
