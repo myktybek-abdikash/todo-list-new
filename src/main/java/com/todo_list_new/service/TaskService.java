@@ -34,12 +34,8 @@ public class TaskService {
 
     public TaskWithUserResponseDTO createTask(TaskRequestDTO taskRequestDTO) {
         String username = SecurityUtils.getCurrentUsername();
-        Users user;
-        try {
-            user = userRepository.findByName(username);
-        } catch (UserNotFoundException e) {
-            throw new UserNotFoundException(e.getMessage());
-        }
+        Users user = userRepository.findByName(username).orElseThrow(() ->
+                new UserNotFoundException("User not found with username: " + username));
 
         Task task = taskMapper.toEntity(taskRequestDTO, user);
         taskRepository.save(task);
@@ -47,12 +43,8 @@ public class TaskService {
     }
 
     public List<TaskResponseDTO> getTasksForUser(String username) {
-        Users user;
-        try {
-            user = userRepository.findByName(username);
-        } catch (UserNotFoundException e) {
-            throw new UserNotFoundException(e.getMessage());
-        }
+        Users user = userRepository.findByName(username).orElseThrow(() ->
+                new UserNotFoundException("User not found with username: " + username));
 
         List<Task> tasks = taskRepository.findByUser(user);
 

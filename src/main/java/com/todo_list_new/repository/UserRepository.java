@@ -4,9 +4,11 @@ import com.todo_list_new.model.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface UserRepository extends JpaRepository<Users, Integer> {
-    Users findByName(String username);
+    Optional<Users> findByName(String username);
 
     boolean existsByName(String name);
 }

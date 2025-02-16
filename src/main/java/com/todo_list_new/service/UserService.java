@@ -82,12 +82,9 @@ public class UserService {
 
     public UserResponseDTO changePassword(UserRequestDTO userRequestDTO) {
         String username = SecurityUtils.getCurrentUsername();
-        Users user;
-        try {
-            user = userRepository.findByName(username);
-        } catch (UserNotFoundException e) {
-            throw new UserNotFoundException(e.getMessage());
-        }
+        Users user = userRepository.findByName(username).orElseThrow(() ->
+                new UserNotFoundException("User not found with name " + username));
+
         user.setPassword(passwordEncoder.encode(userRequestDTO.getPassword()));
         userRepository.save(user);
         return userMapper.toDTO(user);
