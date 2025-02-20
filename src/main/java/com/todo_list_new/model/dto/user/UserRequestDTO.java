@@ -1,6 +1,6 @@
-package com.todo_list_new.model.dto;
+package com.todo_list_new.model.dto.user;
 
-public class UserLoginDTO {
+public class UserRequestDTO {
     private String name;
     private String password;
 
@@ -19,4 +19,5 @@ public class UserLoginDTO {
     public void setPassword(String password) {
         this.password = password;
     }
+
 }

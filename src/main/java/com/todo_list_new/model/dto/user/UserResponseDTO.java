@@ -1,4 +1,4 @@
-package com.todo_list_new.model.dto;
+package com.todo_list_new.model.dto.user;
 
 public class UserResponseDTO {
     private int id;

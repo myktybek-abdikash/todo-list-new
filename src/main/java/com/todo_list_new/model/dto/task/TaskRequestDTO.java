@@ -1,6 +1,6 @@
-package com.todo_list_new.model.dto;
+package com.todo_list_new.model.dto.task;
 
-import com.todo_list_new.model.Users;
+import com.todo_list_new.model.dto.user.UserResponseDTO;
 
 public class TaskRequestDTO {
     private String title;

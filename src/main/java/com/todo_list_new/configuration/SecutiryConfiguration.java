@@ -32,7 +32,9 @@ public class SecutiryConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(authorizeRequests -> authorizeRequests.requestMatchers("/user/register","/user/login").permitAll()
+                .authorizeHttpRequests(authorizeRequests -> authorizeRequests.requestMatchers(
+                        "/user/register",
+                        "/user/login").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .httpBasic(Customizer.withDefaults())

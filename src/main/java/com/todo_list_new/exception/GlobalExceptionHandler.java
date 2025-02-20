@@ -26,4 +26,14 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> exception(Exception e) {
         return new ResponseEntity<>("An error occurred: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    @ExceptionHandler(TaskNotFoundException.class)
+    public ResponseEntity<String> taskNotFoundException(TaskNotFoundException e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(InvalidPasswordException.class)
+    public ResponseEntity<String> invalidPasswordException(InvalidPasswordException e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+    }
 }

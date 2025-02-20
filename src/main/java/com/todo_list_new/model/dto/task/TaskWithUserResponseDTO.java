@@ -1,22 +1,25 @@
-package com.todo_list_new.model.dto;
+package com.todo_list_new.model.dto.task;
 
 import com.todo_list_new.model.TaskStatus;
+import com.todo_list_new.model.dto.user.UserResponseDTO;
 
 import java.time.LocalDate;
 
-public class TaskResponseDTO {
+public class TaskWithUserResponseDTO {
     private int id;
     private String title;
     private String description;
     private TaskStatus status;
     private LocalDate date;
+    private UserResponseDTO userResponseDTO;
 
-    private TaskResponseDTO(Builder builder){
+    private TaskWithUserResponseDTO(TaskWithUserResponseDTO.Builder builder){
         this.id = builder.id;
         this.title = builder.title;
         this.description = builder.description;
         this.status = builder.status;
         this.date = builder.date;
+        this.userResponseDTO = builder.userResponseDTO;
     }
 
     public int getId() {
@@ -59,8 +62,16 @@ public class TaskResponseDTO {
         this.date = date;
     }
 
-    public static Builder builder(){
-        return new Builder();
+    public UserResponseDTO getUserResponseDTO() {
+        return userResponseDTO;
+    }
+
+    public void setUserResponseDTO(UserResponseDTO userResponseDTO) {
+        this.userResponseDTO = userResponseDTO;
+    }
+
+    public static TaskWithUserResponseDTO.Builder builder(){
+        return new TaskWithUserResponseDTO.Builder();
     }
 
     public static class Builder{
@@ -69,34 +80,40 @@ public class TaskResponseDTO {
         private String description;
         private TaskStatus status;
         private LocalDate date;
+        private UserResponseDTO userResponseDTO;
 
-        public Builder id(int id){
+        public TaskWithUserResponseDTO.Builder id(int id){
             this.id = id;
             return this;
         }
 
-        public Builder title(String title){
+        public TaskWithUserResponseDTO.Builder title(String title){
             this.title = title;
             return this;
         }
 
-        public Builder description(String description){
+        public TaskWithUserResponseDTO.Builder description(String description){
             this.description = description;
             return this;
         }
 
-        public Builder status(TaskStatus status){
+        public TaskWithUserResponseDTO.Builder status(TaskStatus status){
             this.status = status;
             return this;
         }
 
-        public Builder date(LocalDate date){
+        public TaskWithUserResponseDTO.Builder date(LocalDate date){
             this.date = date;
             return this;
         }
 
-        public TaskResponseDTO build(){
-            return new TaskResponseDTO(this);
+        public TaskWithUserResponseDTO.Builder userResponseDTO(UserResponseDTO userResponseDTO){
+            this.userResponseDTO = userResponseDTO;
+            return this;
+        }
+
+        public TaskWithUserResponseDTO build(){
+            return new TaskWithUserResponseDTO(this);
         }
 
         @Override
@@ -107,9 +124,8 @@ public class TaskResponseDTO {
                     ", description='" + description + '\'' +
                     ", status=" + status +
                     ", date=" + date +
+                    ", userResponseDTO=" + userResponseDTO +
                     '}';
         }
     }
-
-
 }
