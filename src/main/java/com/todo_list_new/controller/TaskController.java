@@ -11,29 +11,38 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/task")
+@RequestMapping("/api/v1/task")
 public class TaskController {
 
-    @Autowired
-    private TaskService taskService;
+    private static final String CREATE_PATH = "/create";
+    private static final String MY_TASKS_PATH = "/my-tasks";
+    private static final String UPDATE_BY_ID_PATH = "/update/{id}";
+    private static final String DELETE_BY_ID_PATH = "/delete/{id}";
 
-    @PostMapping("/create")
+    private final TaskService taskService;
+
+    @Autowired
+    public TaskController(TaskService taskService) {
+        this.taskService = taskService;
+    }
+
+    @PostMapping(CREATE_PATH)
     public TaskWithUserResponseDTO createTask(@RequestBody TaskRequestDTO taskRequestDTO) {
         return taskService.createTask(taskRequestDTO);
     }
 
-    @GetMapping("/my-tasks")
+    @GetMapping(MY_TASKS_PATH)
     public List<TaskResponseDTO> getMyTasks() {
         String username = SecurityUtils.getCurrentUsername();
         return taskService.getTasksForUser(username);
     }
 
-    @PatchMapping("/update/{id}")
+    @PatchMapping(UPDATE_BY_ID_PATH)
     public TaskResponseDTO updateTask(@PathVariable int id, @RequestBody TaskRequestDTO taskRequestDTO) {
         return taskService.updateTask(id, taskRequestDTO);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping(DELETE_BY_ID_PATH)
     public void deleteTask(@PathVariable int id) {
         taskService.deleteTask(id);
     }
