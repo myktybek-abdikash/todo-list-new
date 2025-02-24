@@ -39,9 +39,13 @@ cd todo-list-new
 
 Шаг 2. Настройка подключения к базе данных
 В файле `src/main/resources/application.properties` укажите параметры подключения к вашей базе данных PostgreSQL. Например:
+
 spring.datasource.url=jdbc:postgresql://localhost:5432/todo_list_db
+
 spring.datasource.username=your_db_username
+
 spring.datasource.password=your_db_password
+
 spring.jpa.hibernate.ddl-auto=update
 
 Шаг 3. Сборка и запуск приложения
