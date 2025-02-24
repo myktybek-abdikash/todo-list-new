@@ -31,11 +31,13 @@ CRUD операции для задач:
 - Maven (либо можно использовать предоставленный [Maven Wrapper](./mvnw))
 - PostgreSQL
 
+
 Шаг 1. Клонирование репозитория
 Откройте терминал и выполните команду:
 git clone https://github.com/myktybek-abdikash/todo-list-new.git
 
 cd todo-list-new
+
 
 Шаг 2. Настройка подключения к базе данных
 В файле `src/main/resources/application.properties` укажите параметры подключения к вашей базе данных PostgreSQL. Например:
@@ -48,18 +50,25 @@ spring.datasource.password=your_db_password
 
 spring.jpa.hibernate.ddl-auto=update
 
+
 Шаг 3. Сборка и запуск приложения
 Запустите приложение с помощью Maven Wrapper:
+
 ./mvnw spring-boot:run
 
 Или соберите проект и запустите JAR-файл:
+
 ./mvnw clean install
+
 java -jar target/todo-list-new-0.0.1-SNAPSHOT.jar
+
 
 Приложение будет запущено по адресу http://localhost:8080
 
+
 Документация API
 Автоматически сгенерированная документация доступна по адресу:
+
 http://localhost:8080/swagger-ui/index.html
 
 Здесь можно ознакомиться с описанием всех доступных эндпоинтов и протестировать их.
