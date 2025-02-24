@@ -34,6 +34,7 @@ CRUD операции для задач:
 Шаг 1. Клонирование репозитория
 Откройте терминал и выполните команду:
 git clone https://github.com/myktybek-abdikash/todo-list-new.git
+
 cd todo-list-new
 
 Шаг 2. Настройка подключения к базе данных
