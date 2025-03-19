@@ -5,6 +5,12 @@ public class UserResponseDTO {
     private String name;
     private String email;
 
+    public UserResponseDTO(int id, String name, String email) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+    }
+
     public UserResponseDTO(Builder builder) {
         this.id = builder.id;
         this.name = builder.name;

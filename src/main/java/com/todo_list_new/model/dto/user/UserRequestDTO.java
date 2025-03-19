@@ -4,6 +4,11 @@ public class UserRequestDTO {
     private String name;
     private String password;
 
+    public UserRequestDTO(String name, String password) {
+        this.name = name;
+        this.password = password;
+    }
+
     public String getName() {
         return name;
     }

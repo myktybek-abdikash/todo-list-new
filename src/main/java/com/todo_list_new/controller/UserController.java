@@ -1,5 +1,7 @@
 package com.todo_list_new.controller;
 
+import com.todo_list_new.exception.UserAlreadyExistsException;
+import com.todo_list_new.exception.ValidationException;
 import com.todo_list_new.model.dto.user.*;
 import com.todo_list_new.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -32,14 +34,25 @@ public class UserController {
     @PostMapping(REGISTER_PATH)
     @Operation(summary = "Регистрация нового пользователя", description = "Создаёт нового пользователя")
     public ResponseEntity<UserResponseDTO> register(@RequestBody UserRegistrationDTO userRegistrationDTO) {
-        UserResponseDTO response = userService.register(userRegistrationDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        try {
+            UserResponseDTO response = userService.register(userRegistrationDTO);
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        } catch (ValidationException e) {
+            return ResponseEntity.badRequest().build();
+        } catch (UserAlreadyExistsException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
-    @PostMapping(LOGIN_PATH)
+    @PostMapping(UserController.LOGIN_PATH)
     @Operation(summary = "Аутентификация пользователя", description = "Возвращает JWT-токен при успешной аутентификации")
     public ResponseEntity<String> login(@RequestBody UserRequestDTO userRequestDTO) {
         String response = userService.verify(userRequestDTO);
+        if ("fail".equals(response)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+        }
         return ResponseEntity.ok(response);
     }
 

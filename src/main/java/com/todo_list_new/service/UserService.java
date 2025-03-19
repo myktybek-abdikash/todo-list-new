@@ -10,6 +10,7 @@ import com.todo_list_new.model.Users;
 import com.todo_list_new.model.dto.user.*;
 import com.todo_list_new.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -45,13 +46,18 @@ public class UserService {
         if (userRepository.existsByName(userRegistrationDTO.getName())){
             throw new UserAlreadyExistsException("User already exists");
         }
-        Users user = new Users();
-        user.setName(userRegistrationDTO.getName());
-        user.setPassword(passwordEncoder.encode(userRegistrationDTO.getPassword()));
-        user.setEmail(userRegistrationDTO.getEmail());
 
-        userRepository.save(user);
-        return userMapper.toDTO(user);
+        try {
+            Users user = new Users();
+            user.setName(userRegistrationDTO.getName());
+            user.setPassword(passwordEncoder.encode(userRegistrationDTO.getPassword()));
+            user.setEmail(userRegistrationDTO.getEmail());
+
+            userRepository.save(user);
+            return userMapper.toDTO(user);
+        } catch (DataAccessException e){
+            throw new RuntimeException("Service exception", e);
+        }
     }
 
     @Transactional
